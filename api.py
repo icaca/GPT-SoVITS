@@ -141,7 +141,7 @@ parser.add_argument("-g", "--gpt_path", type=str, default=g_config.gpt_path, hel
 
 parser.add_argument("-dr", "--default_refer_path", type=str, default="", help="默认参考音频路径")
 parser.add_argument("-dt", "--default_refer_text", type=str, default="", help="默认参考音频文本")
-parser.add_argument("-dl", "--default_refer_language", type=str, default="", help="默认参考音频语种")
+parser.add_argument("-dl", "--default_refer_language", type=str, default="中文", help="默认参考音频语种")
 
 parser.add_argument("-d", "--device", type=str, default=g_config.infer_device, help="cuda / cpu / mps")
 parser.add_argument("-a", "--bind_addr", type=str, default="0.0.0.0", help="default: 0.0.0.0")
