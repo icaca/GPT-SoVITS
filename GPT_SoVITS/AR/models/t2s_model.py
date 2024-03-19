@@ -295,7 +295,7 @@ class Text2SemanticDecoder(nn.Module):
             )
 
             if early_stop_num != -1 and (y.shape[1] - prefix_len) > early_stop_num:
-                print("use early stop num:", early_stop_num)
+                # print("use early stop num:", early_stop_num)
                 stop = True
 
             if torch.argmax(logits, dim=-1)[0] == self.EOS or samples[0, 0] == self.EOS:
@@ -304,8 +304,8 @@ class Text2SemanticDecoder(nn.Module):
             if stop:
                 if prompts.shape[1] == y.shape[1]:
                     y = torch.concat([y, torch.zeros_like(samples)], dim=1)
-                    print("bad zero prediction")
-                print(f"T2S Decoding EOS [{prefix_len} -> {y.shape[1]}]")
+                #     print("bad zero prediction")
+                # print(f"T2S Decoding EOS [{prefix_len} -> {y.shape[1]}]")
                 break
             # 本次生成的 semantic_ids 和之前的 y 构成新的 y
             # print(samples.shape)#[1,1]#第一个1是bs
@@ -404,7 +404,7 @@ class Text2SemanticDecoder(nn.Module):
             y = torch.concat([y, samples], dim=1) 
 
             if early_stop_num != -1 and (y.shape[1] - prefix_len) > early_stop_num:
-                print("use early stop num:", early_stop_num)
+                # print("use early stop num:", early_stop_num)
                 stop = True
 
             if torch.argmax(logits, dim=-1)[0] == self.EOS or samples[0, 0] == self.EOS:
@@ -416,8 +416,8 @@ class Text2SemanticDecoder(nn.Module):
                 #     print("bad zero prediction")
                 if y.shape[1]==0:
                     y = torch.concat([y, torch.zeros_like(samples)], dim=1)
-                    print("bad zero prediction")
-                print(f"T2S Decoding EOS [{prefix_len} -> {y.shape[1]}]")
+                #     print("bad zero prediction")
+                # print(f"T2S Decoding EOS [{prefix_len} -> {y.shape[1]}]")
                 break
             
             ####################### update next step ###################################
