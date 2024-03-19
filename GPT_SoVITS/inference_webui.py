@@ -311,7 +311,10 @@ def merge_short_text_in_array(texts, threshold):
             result[len(result) - 1] += text
     return result
 
-def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free = False):
+
+def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free=False, so="", gpt=""):
+    change_sovits_weights(so)
+    change_gpt_weights(gpt)
     if prompt_text is None or len(prompt_text) == 0:
         ref_free = True
     t0 = ttime()
@@ -561,6 +564,8 @@ with gr.Blocks(title="GPT-SoVITS WebUI") as app:
             refresh_button.click(fn=change_choices, inputs=[], outputs=[SoVITS_dropdown, GPT_dropdown])
             SoVITS_dropdown.change(change_sovits_weights, [SoVITS_dropdown], [])
             GPT_dropdown.change(change_gpt_weights, [GPT_dropdown], [])
+            text_so = gr.Textbox(label=i18n("SoVITS"), value="")
+            text_gpt = gr.Textbox(label=i18n("GPT"), value="")
         gr.Markdown(value=i18n("*请上传并填写参考信息"))
         with gr.Row():
             inp_ref = gr.Textbox(label=i18n("请上传2~10秒内参考音频，超过会报错！"), value="")
@@ -593,7 +598,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI") as app:
 
         inference_button.click(
             get_tts_wav,
-            [inp_ref, prompt_text, prompt_language, text, text_language, how_to_cut, top_k, top_p, temperature, ref_text_free],
+            [inp_ref, prompt_text, prompt_language, text, text_language, how_to_cut, top_k, top_p, temperature, ref_text_free,text_so,text_gpt],
             [output],
         )
 
