@@ -136,6 +136,7 @@ else:
 
 
 def change_sovits_weights(sovits_path):
+    print(sovits_path)
     global vq_model, hps
     dict_s2 = torch.load(sovits_path, map_location="cpu")
     hps = dict_s2["config"]
@@ -163,6 +164,7 @@ change_sovits_weights(sovits_path)
 
 
 def change_gpt_weights(gpt_path):
+    print(gpt_path)
     global hz, max_sec, t2s_model, config
     hz = 50
     dict_s1 = torch.load(gpt_path, map_location="cpu")
@@ -313,8 +315,8 @@ def merge_short_text_in_array(texts, threshold):
 
 
 def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free=False, so="", gpt=""):
-    change_sovits_weights([so])
-    change_gpt_weights([gpt])
+    change_sovits_weights(so)
+    change_gpt_weights(gpt)
     if prompt_text is None or len(prompt_text) == 0:
         ref_free = True
     t0 = ttime()
@@ -564,33 +566,33 @@ with gr.Blocks(title="GPT-SoVITS WebUI") as app:
             refresh_button.click(fn=change_choices, inputs=[], outputs=[SoVITS_dropdown, GPT_dropdown])
             SoVITS_dropdown.change(change_sovits_weights, [SoVITS_dropdown], [])
             GPT_dropdown.change(change_gpt_weights, [GPT_dropdown], [])
-            text_so = gr.Textbox(label=i18n("SoVITS"), value="")
-            text_gpt = gr.Textbox(label=i18n("GPT"), value="")
+            text_gpt = gr.Textbox(label=i18n("GPT"), value="GPT_weights/human-female-e15.ckpt")
+            text_so = gr.Textbox(label=i18n("SoVITS"), value="SoVITS_weights/human-female_e8_s144.pth")
         gr.Markdown(value=i18n("*请上传并填写参考信息"))
         with gr.Row():
-            inp_ref = gr.Textbox(label=i18n("请上传2~10秒内参考音频，超过会报错！"), value="")
+            inp_ref = gr.Textbox(label=i18n("请上传2~10秒内参考音频，超过会报错！"), value="data/human-female/HumanFemaleOfficialNPCGreeting04_0.wav")
             with gr.Column():
                 ref_text_free = gr.Checkbox(label=i18n("开启无参考文本模式。不填参考文本亦相当于开启。"), value=False, interactive=True, show_label=True)
                 gr.Markdown(i18n("使用无参考文本模式时建议使用微调的GPT，听不清参考音频说的啥(不晓得写啥)可以开，开启后无视填写的参考文本。"))
-                prompt_text = gr.Textbox(label=i18n("参考音频的文本"), value="")
+                prompt_text = gr.Textbox(label=i18n("参考音频的文本"), value="愿圣光与你同在。")
             prompt_language = gr.Dropdown(
                 label=i18n("参考音频的语种"), choices=[i18n("中文"), i18n("英文"), i18n("日文"), i18n("中英混合"), i18n("日英混合"), i18n("多语种混合")], value=i18n("中文")
             )
         gr.Markdown(value=i18n("*请填写需要合成的目标文本和语种模式"))
         with gr.Row():
-            text = gr.Textbox(label=i18n("需要合成的文本"), value="")
+            text = gr.Textbox(label=i18n("需要合成的文本"), value="你就是来自暴风城的新兵？我是治安官玛克布莱德，这支驻防部队的指挥官。欢迎你前来报到")
             text_language = gr.Dropdown(
                 label=i18n("需要合成的语种"), choices=[i18n("中文"), i18n("英文"), i18n("日文"), i18n("中英混合"), i18n("日英混合"), i18n("多语种混合")], value=i18n("中文")
             )
             how_to_cut = gr.Radio(
                 label=i18n("怎么切"),
                 choices=[i18n("不切"), i18n("凑四句一切"), i18n("凑50字一切"), i18n("按中文句号。切"), i18n("按英文句号.切"), i18n("按标点符号切"), ],
-                value=i18n("凑四句一切"),
+                value=i18n("不切"),
                 interactive=True,
             )
             with gr.Row():
                 gr.Markdown(value=i18n("gpt采样参数(无参考文本时不要太低)："))
-                top_k = gr.Slider(minimum=1,maximum=100,step=1,label=i18n("top_k"),value=5,interactive=True)
+                top_k = gr.Slider(minimum=1,maximum=100,step=1,label=i18n("top_k"),value=20,interactive=True)
                 top_p = gr.Slider(minimum=0,maximum=1,step=0.05,label=i18n("top_p"),value=1,interactive=True)
                 temperature = gr.Slider(minimum=0,maximum=1,step=0.05,label=i18n("temperature"),value=1,interactive=True)
             inference_button = gr.Button(i18n("合成语音"), variant="primary")
