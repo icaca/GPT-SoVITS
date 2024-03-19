@@ -8,6 +8,8 @@
 '''
 import os, re, logging
 import LangSegment
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 logging.getLogger("markdown_it").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 logging.getLogger("httpcore").setLevel(logging.ERROR)
