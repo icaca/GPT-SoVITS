@@ -19,6 +19,7 @@ logging.getLogger("charset_normalizer").setLevel(logging.ERROR)
 logging.getLogger("torchaudio._extension").setLevel(logging.ERROR)
 import pdb
 import torch
+from google.colab import output
 
 if os.path.exists("./gweight.txt"):
     with open("./gweight.txt", 'r', encoding="utf-8") as file:
@@ -317,6 +318,7 @@ def merge_short_text_in_array(texts, threshold):
 
 
 def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free=False, so="", gpt=""):
+    output.clear()
     change_sovits_weights(so)
     change_gpt_weights(gpt)
     if prompt_text is None or len(prompt_text) == 0:
