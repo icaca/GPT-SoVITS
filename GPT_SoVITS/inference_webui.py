@@ -74,6 +74,11 @@ from module.mel_processing import spectrogram_torch
 from my_utils import load_audio
 from tools.i18n.i18n import I18nAuto
 
+os.environ["gpt_path"]="GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt"
+os.environ["sovits_path"]="GPT_SoVITS/pretrained_models/s2G488k.pth"
+os.environ["cnhubert_base_path"]="GPT_SoVITS/pretrained_models/chinese-hubert-base"
+os.environ["bert_path"]="GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large"
+os.environ["_CUDA_VISIBLE_DEVICES"]="0"
 i18n = I18nAuto()
 
 os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'  # 确保直接启动推理UI时也能够设置。
