@@ -308,7 +308,7 @@ def get_phones_and_bert(text, language):
                     langlist.append(language)
                 textlist.append(tmp["text"])
         print(textlist)
-        print(langlist)
+        # print(langlist)
         phones_list = []
         bert_list = []
         norm_text_list = []
