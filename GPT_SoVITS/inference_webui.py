@@ -671,7 +671,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI") as app:
                                             i18n("日英混合"),
                                             i18n("多语种混合")
                                         ],
-                                        value=i18n("中文"))
+                                        value=i18n("中英混合"))
             how_to_cut = gr.Radio(
                 label=i18n("怎么切"),
                 choices=[
